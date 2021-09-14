@@ -50,42 +50,42 @@ daily_covid_fix = daily_covid_fix.sort_index(ascending=True)
 df = prov.merge(daily_covid_fix, left_index=True, right_index=True, how='inner')
 df.to_csv('merged_data')
 
-list_of_days = daily_covid['Tanggal'][394:]
+list_of_days = daily_covid['Tanggal'][518:521]
 
 
-def embed_map(the_map, filename):
-    the_map.save(filename)
-    return IFrame(filename, width='100%', height='500px')
-
-
-for day in list_of_days:
-    df_geo = df.copy()
-
-    map1 = folium.Map(tiles=None, zoom_control=False)
-
-    choropleth = Choropleth(geo_data=df_geo.__geo_interface__,
-                            data=df_geo[day]/1000,
-                            key_on='feature.id',
-                            bins=[0, 50, 100, 250, 500, 750, 1000],
-                            threshold_scale=[0, 50, 100, 250, 500, 750, 1000],
-                            fill_color='Dark2',
-                            fill_opacity=0.75,
-                            line_color='white',
-                            line_weight=0.25,
-                            line_opacity=0.75,
-                            legend_name='Total Case (1:1000)').add_to(map1)
-
-    map1.fit_bounds([[12.728487, 101.419820], [-13.729686, 136.219106]])
-
-    date = pd.to_datetime(day)
-    date = datetime.strftime(date, '%d %B %Y')
-
-    title_html = f'''<h3 align="center" style="font-size:25px">
-                        <b>{date}</b></h3>
-                     '''
-    map1.get_root().html.add_child(folium.Element(title_html))
-
-    embed_map(map1, f'./html_maps/{day}_Covid.html')
+# def embed_map(the_map, filename):
+#     the_map.save(filename)
+#     return IFrame(filename, width='100%', height='500px')
+#
+#
+# for day in list_of_days:
+#     df_geo = df.copy()
+#
+#     map1 = folium.Map(tiles=None, zoom_control=False)
+#
+#     choropleth = Choropleth(geo_data=df_geo.__geo_interface__,
+#                             data=df_geo[day]/1000,
+#                             key_on='feature.id',
+#                             bins=[0, 50, 100, 250, 500, 750, 1000],
+#                             threshold_scale=[0, 50, 100, 250, 500, 750, 1000],
+#                             fill_color='Dark2',
+#                             fill_opacity=0.75,
+#                             line_color='white',
+#                             line_weight=0.25,
+#                             line_opacity=0.75,
+#                             legend_name='Total Case (1:1000)').add_to(map1)
+#
+#     map1.fit_bounds([[12.728487, 101.419820], [-13.729686, 136.219106]])
+#
+#     date = pd.to_datetime(day)
+#     date = datetime.strftime(date, '%d %B %Y')
+#
+#     title_html = f'''<h3 align="center" style="font-size:25px">
+#                         <b>{date}</b></h3>
+#                      '''
+#     map1.get_root().html.add_child(folium.Element(title_html))
+#
+#     embed_map(map1, f'./html_maps/{day}_Covid.html')
 
 
 chrome_options = Options()
@@ -128,12 +128,12 @@ png_to_gif(path_to_images='./maps/*.png',
 
 
 image_folder = 'maps'
-video_name = 'covid.mp4'
+video_name = 'covid.avi'
 
 images_ = [img for img in os.listdir(image_folder) if img.endswith(".png")]
 frame = cv2.imread(os.path.join(image_folder, images_[0]))
 height, width, layers = frame.shape
-fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 video = cv2.VideoWriter(video_name, fourcc, 4, (width, height))
 
 for image in images_:
