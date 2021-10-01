@@ -1045,17 +1045,3 @@ cv2.destroyAllWindows()
 video.release()
 
 ```
-
-
-```python
-!jupyter nbconvert --to html Covid_Indo_Map.ipynb
-```
-
-    [NbConvertApp] Converting notebook Covid_Indo_Map.ipynb to html
-    [NbConvertApp] Writing 610206 bytes to Covid_Indo_Map.html
-
-
-
-```python
-
-```
